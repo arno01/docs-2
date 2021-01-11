@@ -136,17 +136,23 @@ This means that the operating system is preventing network connections from bein
 Although it's not totally necessary, it's useful to have the mixnode automatically start at system boot time. Here's a systemd service file to do that:
 
 ```
+$ sudo systemctl edit --force --full nym-mixnode
 [Unit]
-Description=Nym Mixnode (0.9.2)
+Description=nym mixnode
+After=network.target
 
 [Service]
 User=nym
-ExecStart=/home/nym/nym-mixnode run --id mix090
-KillSignal=SIGINT # gracefully kill the process when stopping the service. Allows node to unregister cleanly.
+Group=nym
+ExecStart=/home/nym/nym-mixnode run --id your-id
 Restart=on-failure
 RestartSec=30
 StartLimitInterval=350
 StartLimitBurst=10
+# gracefully kill the process when stopping the service. Allows node to unregister cleanly.
+KillSignal=SIGINT
+# this sets a higher ulimit for your mixnode, so it will still work as the network grows
+LimitNOFILE=65535
 
 [Install]
 WantedBy=multi-user.target
