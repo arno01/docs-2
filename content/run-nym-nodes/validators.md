@@ -180,6 +180,11 @@ Choose a name for your validator and use it in place of `yourname` in the follow
 nymd init yourname --chain-id testnet-{{< param testnetNameLowercase >}}
 ```
 
+> ⚠️ `nymd init` generates `priv_validator_key.json` and `node_key.json`.  
+> You should **always** backup this key `~/.nymd/config/priv_validator_key.json` if you already created a validator.  
+> If you don't save the validator key, then it can't sign blocks and will be jailed all the time.  
+> There is no way to deterministically generate it using `nymd`.  
+
 At this point, you have a new validator, with its own genesis file located at `$HOME/.nymd/config/genesis.json`. You will need to **replace the contents of that file** that with Nym's [testnet-{{< param testnetNameLowercase >}} genesis file](https://nymtech.net/testnets/{{< param testnetNameLowercase >}}/genesis.json).
 
 You can use the following command to download the one for {{< param testnetName >}}:
